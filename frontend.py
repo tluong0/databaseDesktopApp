@@ -13,11 +13,15 @@ Delete Close
 """
 
 from tkinter import *
+import tkinter.messagebox
 from datetime import date
-import backend
+import backend, reminders
 
 today = date.today()
 date_text = today.strftime("%m/%d/%y")
+window = Tk()
+
+window.wm_title("EDI Files")
 
 
 def get_selected_row(event):
@@ -65,13 +69,20 @@ def delete_command():
 
 
 def update_command():
-    backend.update(selected_tuple[0],client_text.get(), carrier_text.get(), status_text.get(), date_text)
+    try:
+        backend.update(selected_tuple[0],client_text.get(), carrier_text.get(), status_text.get(), date_text)
+    except IndexError:
+        pass
     clear_command()
     view_command()
 
-window = Tk()
 
-window.wm_title("EDI Files")
+def show_files_need_update():
+    files = reminders.get_info()
+    list1.delete(0,END)
+    for file in files:
+        list1.insert(END, file)
+
 
 l1 = Label(window, text="Client")
 l1.grid(row=0, column=0)
@@ -115,20 +126,22 @@ list1.bind('<<ListboxSelect>>', get_selected_row)
 b1 = Button(window, text="View all", width=12, command=view_command)
 b1.grid(row=2, column=3)
 
-b2 = Button(window, text="Search entry", width=12, command=search_command)
+b2 = Button(window, text="Follow up files", width=12, command=show_files_need_update)
 b2.grid(row=3, column=3)
 
-b3 = Button(window, text="Add entry", width=12, command=add_command)
+b3 = Button(window, text="Search entry", width=12, command=search_command)
 b3.grid(row=4, column=3)
 
-b4 = Button(window, text="Update", width=12, command=update_command)
+b4 = Button(window, text="Add entry", width=12, command=add_command)
 b4.grid(row=5, column=3)
 
-b5 = Button(window, text="Delete", width=12, command=delete_command)
+b5 = Button(window, text="Update", width=12, command=update_command)
 b5.grid(row=6, column=3)
 
-b6 = Button(window, text="Close", width=12, command=window.destroy)
+b6 = Button(window, text="Delete", width=12, command=delete_command)
 b6.grid(row=7, column=3)
+
+
 
 window.mainloop()
 

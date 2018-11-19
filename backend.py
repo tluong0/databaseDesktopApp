@@ -32,6 +32,7 @@ def search(client="", carrier="", status=""):
     cur.execute("SELECT * FROM file WHERE client=? OR carrier=? OR status=?",(client, carrier, status))
     rows=cur.fetchall()
     conn.close()
+    conn.close()
     return rows
 connect()
 
