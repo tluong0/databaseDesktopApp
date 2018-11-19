@@ -18,6 +18,4 @@ def get_info():
 
 
 
-print((get_info()))
-
 

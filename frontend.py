@@ -142,6 +142,7 @@ b6 = Button(window, text="Delete", width=12, command=delete_command)
 b6.grid(row=7, column=3)
 
 
-
+view_command()
 window.mainloop()
+
 
